@@ -16,6 +16,7 @@ function Dashboard() {
         widgets: [
           { id: uuidv4(), name: "Widget 1", text: "This is Widget 1 text" },
           { id: uuidv4(), name: "Widget 2", text: "This is Widget 2 text" },
+         
         ],
       },
       {
@@ -28,7 +29,7 @@ function Dashboard() {
     ],
   };
 
-  // Load data from local storage or use initial data
+  
   const [data, setData] = useState(() => {
     const savedData = localStorage.getItem("widgetData");
     return savedData ? JSON.parse(savedData) : initialData;

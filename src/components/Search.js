@@ -10,12 +10,12 @@ function Search({ onSearch }) {
       <div className="w-full sm:w-72 md:w-80 lg:w-96 border-2 p-2 rounded-md flex items-center">
         <IoIosSearch size={20} className="text-slate-400" />
         <input
-          className="outline-none w-full"
+          className="outline-none w-full bg-transparent"
           placeholder="Search your widgets"
           onChange={(e) => onSearch(e.target.value)}
         />
       </div>
-      <div className="ml-4">
+      <div className="ml-4 cursor-pointer hover:scale-150 transition-tranform">
         <FaUserCircle size={25} />
       </div>
     </nav>
