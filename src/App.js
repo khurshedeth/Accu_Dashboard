@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Search from "./components/Search";
 import WidgetCategories from "./components/WidgetCategories";
@@ -16,7 +16,6 @@ function Dashboard() {
         widgets: [
           { id: uuidv4(), name: "Widget 1", text: "This is Widget 1 text" },
           { id: uuidv4(), name: "Widget 2", text: "This is Widget 2 text" },
-         
         ],
       },
       {
@@ -29,18 +28,8 @@ function Dashboard() {
     ],
   };
 
-  
-  const [data, setData] = useState(() => {
-    const savedData = localStorage.getItem("widgetData");
-    return savedData ? JSON.parse(savedData) : initialData;
-  });
-
+  const [data, setData] = useState(initialData);
   const [searchResults, setSearchResults] = useState(data);
-
-  // Save data to local storage whenever data changes
-  useEffect(() => {
-    localStorage.setItem("widgetData", JSON.stringify(data));
-  }, [data]);
 
   const handleAddWidget = (categoryId, widget) => {
     const updatedData = { ...data };
