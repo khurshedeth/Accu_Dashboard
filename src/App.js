@@ -1,4 +1,4 @@
-import React, { useState,  } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Search from "./components/Search";
 import WidgetCategories from "./components/WidgetCategories";
@@ -16,6 +16,8 @@ function Dashboard() {
         widgets: [
           { id: uuidv4(), name: "Widget 1", text: "This is Widget 1 text" },
           { id: uuidv4(), name: "Widget 2", text: "This is Widget 2 text" },
+          { id: uuidv4(), name: "Widget 2", text: "This is Widget 2 text" },
+          { id: uuidv4(), name: "Widget 2", text: "This is Widget 2 text" },
         ],
       },
       {
@@ -23,13 +25,23 @@ function Dashboard() {
         name: "Network Security Dashboard",
         widgets: [
           { id: uuidv4(), name: "Widget 3", text: "This is Widget 3 text" },
+          { id: uuidv4(), name: "Widget 3", text: "This is Widget 3 text" },
+          { id: uuidv4(), name: "Widget 3", text: "This is Widget 3 text" },
+          { id: uuidv4(), name: "Widget 3", text: "This is Widget 3 text" },
         ],
       },
     ],
   };
 
-  const [data, setData] = useState(initialData);
+  // Load data from local storage or use initial data
+  const storedData = localStorage.getItem("dashboardData");
+  const [data, setData] = useState(storedData ? JSON.parse(storedData) : initialData);
   const [searchResults, setSearchResults] = useState(data);
+
+  // Save data to local storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("dashboardData", JSON.stringify(data));
+  }, [data]);
 
   const handleAddWidget = (categoryId, widget) => {
     const updatedData = { ...data };
