@@ -22,7 +22,7 @@ function AddWidget({ categories, onAddWidget }) {
       <div className="flex justify-between items-center w-full lg:w-1/3 gap-4">
         <div className="border border-gray-300 p-2 rounded-lg w-full lg:w-auto">
           <button
-            className="flex gap-2 items-center justify-center w-full lg:w-auto"
+            className="flex gap-2 items-center justify-center w-full lg:w-36"
             onClick={() => setIsModalOpen(true)}
           >
             Add Widgets <IoAdd />
@@ -91,7 +91,7 @@ function AddWidget({ categories, onAddWidget }) {
                 className="bg-blue-500 text-white p-2 rounded"
                 onClick={handleAdd}
               >
-                + Add Widget
+                Confirm
               </button>
             </div>
           </div>

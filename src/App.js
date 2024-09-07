@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Search from "./components/Search";
 import WidgetCategories from "./components/WidgetCategories";
 import AddWid from "./components/AddWid";
+import WidgetDetail from "./components/WidgetDetail"; 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -90,19 +92,36 @@ function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Search onSearch={handleSearchWidgets} />
-      <AddWid
-        categories={searchResults.categories}
-        onAddWidget={handleAddWidget}
-      />
-      <WidgetCategories
-        categories={searchResults.categories}
-        onRemoveWidget={handleRemoveWidget}
-        onAddWidget={handleAddWidget}
-      />
-      <ToastContainer />
-    </div>
+    <Router>
+      <div className="container mx-auto p-4">
+        <Search onSearch={handleSearchWidgets} />
+        <Routes>
+          
+          <Route
+            path="/"
+            element={
+              <>
+                <AddWid
+                  categories={searchResults.categories}
+                  onAddWidget={handleAddWidget}
+                />
+                <WidgetCategories
+                  categories={searchResults.categories}
+                  onRemoveWidget={handleRemoveWidget}
+                  onAddWidget={handleAddWidget}
+                />
+              </>
+            }
+          />
+          
+          <Route
+            path="/category/:categoryId/widget/:widgetId"
+            element={<WidgetDetail data={data} />}
+          />
+        </Routes>
+        <ToastContainer />
+      </div>
+    </Router>
   );
 }
 

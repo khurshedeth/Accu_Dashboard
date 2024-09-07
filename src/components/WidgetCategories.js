@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import AddWidgetModal from "./AddWidgetModal";
 
@@ -26,19 +27,27 @@ function WidgetCategories({ categories, onRemoveWidget, onAddWidget }) {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {category.widgets.map((widget) => (
-              <div
+              <Link
+                to={`/category/${category.id}/widget/${widget.id}`}
                 key={widget.id}
-                className="p-4 bg-gray-100 rounded shadow relative hover:scale-105 transition-transform"
+                className="block" // make the entire block clickable
               >
-                <h3 className="text-lg font-semibold">{widget.name}</h3>
-                <p>{widget.text}</p>
-                <button
-                  className="absolute top-0 right-0 m-2 text-red-500"
-                  onClick={() => onRemoveWidget(category.id, widget.id)}
+                <div
+                  className="p-4 bg-gray-100 rounded shadow relative hover:scale-105 transition-transform"
                 >
-                  <RxCross2 size={20} />
-                </button>
-              </div>
+                  <h3 className="text-lg font-semibold">{widget.name}</h3>
+                  <p>{widget.text}</p>
+                  <button
+                    className="absolute top-0 right-0 m-2 text-red-500"
+                    onClick={(e) => {
+                      e.preventDefault(); // prevent link navigation when the button is clicked
+                      onRemoveWidget(category.id, widget.id);
+                    }}
+                  >
+                    <RxCross2 size={20} />
+                  </button>
+                </div>
+              </Link>
             ))}
             <div
               className="flex items-center justify-center p-4 bg-white border-2 border-dashed border-gray-400 rounded shadow-md cursor-pointer hover:scale-105 transition-transform"
