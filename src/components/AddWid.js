@@ -7,8 +7,28 @@ function AddWidget({ categories, onAddWidget }) {
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
   const [newWidget, setNewWidget] = useState({ name: "", text: "" });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [widgetNameError, setWidgetNameError] = useState("");
+  const [widgetTextError, setWidgetTextError] = useState("");
 
   const handleAdd = () => {
+    let hasError = false;
+
+    if (!newWidget.name.trim()) {
+      setWidgetNameError("Please input the widget name.");
+      hasError = true;
+    } else {
+      setWidgetNameError(""); 
+    }
+
+    if (!newWidget.text.trim()) {
+      setWidgetTextError("Please input the widget text.");
+      hasError = true;
+    } else {
+      setWidgetTextError("");
+    }
+
+    if (hasError) return;
+
     onAddWidget(selectedCategory, newWidget);
     setNewWidget({ name: "", text: "" });
     setIsModalOpen(false);
@@ -20,19 +40,19 @@ function AddWidget({ categories, onAddWidget }) {
         <h1>CNAAP Dashboard</h1>
       </div>
       <div className="flex justify-between items-center w-full lg:w-1/3 gap-4">
-        <div className="border border-gray-300 p-2 rounded-lg w-full lg:w-auto">
+        <div className="border border-gray-300 p-2 rounded-lg w-full lg:w-auto hover:bg-blue-100 ">
           <button
-            className="flex gap-2 items-center justify-center w-full lg:w-36"
+            className="flex gap-2 items-center justify-center w-full lg:w-36 transition-colors duration-300"
             onClick={() => setIsModalOpen(true)}
           >
             Add Widgets <IoAdd />
           </button>
         </div>
 
-        <div className="hidden lg:flex border-2 p-2 rounded-lg">
+        <div className="hidden lg:flex border-2 p-2 rounded-lg hover:bg-gray-200 transition-colors duration-300">
           <BiRefresh size={20} />
         </div>
-        <div className="hidden lg:flex border-2 p-2 rounded-lg">
+        <div className="hidden lg:flex border-2 p-2 rounded-lg hover:bg-gray-200 transition-colors duration-300">
           <BsThreeDotsVertical size={20} />
         </div>
         <div className="hidden lg:block w-full lg:w-auto">
@@ -49,12 +69,13 @@ function AddWidget({ categories, onAddWidget }) {
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
+            className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md transition-transform transform hover:scale-105"
             onClick={(e) => e.stopPropagation()} 
           >
-            <h3 className="text-xl font-bold mb-2">Add New Widget</h3>
+            <h3 className="text-xl font-bold mb-2 text-gray-800">Add New Widget</h3>
+
             <select
-              className="border rounded p-2 mb-4 w-full"
+              className="border border-gray-300 rounded p-2 mb-4 w-full focus:ring-2 focus:ring-blue-500"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
@@ -64,31 +85,44 @@ function AddWidget({ categories, onAddWidget }) {
                 </option>
               ))}
             </select>
-            <input
-              type="text"
-              placeholder="Widget Name"
-              className="border rounded p-2 mb-4 w-full"
-              value={newWidget.name}
-              onChange={(e) =>
-                setNewWidget({ ...newWidget, name: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Widget Text"
-              className="border rounded p-2 mb-4 w-full"
-              value={newWidget.text}
-              onChange={(e) =>
-                setNewWidget({ ...newWidget, text: e.target.value })}
-            />
+
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Widget Name"
+                className="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-blue-500 outline-none"
+                value={newWidget.name}
+                onChange={(e) =>
+                  setNewWidget({ ...newWidget, name: e.target.value })}
+              />
+              {widgetNameError && (
+                <p className="text-red-500 text-sm mt-1">{widgetNameError}</p>
+              )}
+            </div>
+
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Widget Text"
+                className="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-blue-500 outline-none "
+                value={newWidget.text}
+                onChange={(e) =>
+                  setNewWidget({ ...newWidget, text: e.target.value })}
+              />
+              {widgetTextError && (
+                <p className="text-red-500 text-sm mt-1">{widgetTextError}</p>
+              )}
+            </div>
+
             <div className="flex justify-end">
               <button
-                className="bg-gray-500 text-white p-2 rounded mr-2"
+                className="bg-gray-500 text-white p-2 rounded mr-2 hover:bg-gray-600 transition-colors duration-300"
                 onClick={() => setIsModalOpen(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-blue-500 text-white p-2 rounded"
+                className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors duration-300"
                 onClick={handleAdd}
               >
                 Confirm
