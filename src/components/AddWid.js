@@ -16,22 +16,28 @@ function AddWidget({ categories, onAddWidget }) {
     if (!newWidget.name.trim()) {
       setWidgetNameError("Please input the widget name.");
       hasError = true;
-    } else {
-      setWidgetNameError(""); 
     }
 
     if (!newWidget.text.trim()) {
       setWidgetTextError("Please input the widget text.");
       hasError = true;
-    } else {
-      setWidgetTextError("");
     }
 
     if (hasError) return;
 
+    // If no errors, proceed to add the widget
     onAddWidget(selectedCategory, newWidget);
     setNewWidget({ name: "", text: "" });
     setIsModalOpen(false);
+    setWidgetNameError(""); // Clear errors after successful add
+    setWidgetTextError("");
+  };
+
+  const openModal = () => {
+    setNewWidget({ name: "", text: "" }); // Reset input fields
+    setWidgetNameError(""); // Clear widget name error
+    setWidgetTextError(""); // Clear widget text error
+    setIsModalOpen(true);   // Open modal
   };
 
   return (
@@ -40,10 +46,10 @@ function AddWidget({ categories, onAddWidget }) {
         <h1>CNAAP Dashboard</h1>
       </div>
       <div className="flex justify-between items-center w-full lg:w-1/3 gap-4">
-        <div className="border border-gray-300 p-2 rounded-lg w-full lg:w-auto hover:bg-blue-100 ">
+        <div className="border border-gray-300 p-2 rounded-lg w-full lg:w-auto hover:bg-blue-100">
           <button
             className="flex gap-2 items-center justify-center w-full lg:w-36 transition-colors duration-300"
-            onClick={() => setIsModalOpen(true)}
+            onClick={openModal} // Use the new function to open modal and reset errors
           >
             Add Widgets <IoAdd />
           </button>
@@ -70,7 +76,7 @@ function AddWidget({ categories, onAddWidget }) {
         >
           <div
             className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md transition-transform transform hover:scale-105"
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()} // Stop click propagation to keep modal open
           >
             <h3 className="text-xl font-bold mb-2 text-gray-800">Add New Widget</h3>
 
@@ -92,8 +98,10 @@ function AddWidget({ categories, onAddWidget }) {
                 placeholder="Widget Name"
                 className="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-blue-500 outline-none"
                 value={newWidget.name}
-                onChange={(e) =>
-                  setNewWidget({ ...newWidget, name: e.target.value })}
+                onChange={(e) => {
+                  setNewWidget({ ...newWidget, name: e.target.value });
+                  setWidgetNameError(""); // Clear error when user types
+                }}
               />
               {widgetNameError && (
                 <p className="text-red-500 text-sm mt-1">{widgetNameError}</p>
@@ -104,10 +112,12 @@ function AddWidget({ categories, onAddWidget }) {
               <input
                 type="text"
                 placeholder="Widget Text"
-                className="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-blue-500 outline-none "
+                className="border border-gray-300 rounded p-2 w-full focus:ring-2 focus:ring-blue-500 outline-none"
                 value={newWidget.text}
-                onChange={(e) =>
-                  setNewWidget({ ...newWidget, text: e.target.value })}
+                onChange={(e) => {
+                  setNewWidget({ ...newWidget, text: e.target.value });
+                  setWidgetTextError(""); // Clear error when user types
+                }}
               />
               {widgetTextError && (
                 <p className="text-red-500 text-sm mt-1">{widgetTextError}</p>
